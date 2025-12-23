@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PolicyAssistant.DTOs;
 using PolicyAssistant.Services.Embeddings;
+using PolicyAssistant.Services.LLM;
+using PolicyAssistant.Services.Similarity;
 using PolicyAssitant.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace PolicyAssistant.Controllers
 {
@@ -76,5 +79,11 @@ namespace PolicyAssistant.Controllers
             });
         }
 
+        private float[] DeserializeEmbedding(byte[] bytes)
+        {
+            var floats = new float[bytes.Length / sizeof(float)];
+            Buffer.BlockCopy(bytes, 0, floats, 0, bytes.Length);
+            return floats;
+        }
     }
 }
