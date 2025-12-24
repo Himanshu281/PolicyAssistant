@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PolicyAssistant.Services.Embeddings;
+using PolicyAssistant.Services.LLM;
+using PolicyAssistant.Services.Similarity;
 using PolicyAssitant.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<IEmbeddingService, OllamaEmbeddingService>();
+builder.Services.AddHttpClient<ILLMService, OllamaLLMService>();
+builder.Services.AddSingleton<CosineSimilarityService>();
 
 // Register EF Core DbContext using SQL Server LocalDB
 var conn = builder.Configuration.GetConnectionString("PolicyAssitantConnection")
